@@ -1,0 +1,25 @@
+{
+  "name": "@aprendiz/server",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node20 --packages=external --alias:@aprendiz/shared=../shared/src/index.ts --outfile=dist/index.js",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@colyseus/core": "^0.18.28",
+    "@colyseus/schema": "^5.0.48",
+    "@colyseus/ws-transport": "^0.18.0",
+    "express": "^5.0.0"
+  },
+  "devDependencies": {
+    "@aprendiz/shared": "*",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.0"
+  }
+}
