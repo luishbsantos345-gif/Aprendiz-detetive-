@@ -1,0 +1,14 @@
+# Blueprint do Render: New → Blueprint → escolha este repositório.
+services:
+  - type: web
+    name: aprendiz-detetive-servidor
+    runtime: node
+    plan: free
+    region: virginia
+    buildCommand: npm ci --include=dev && npm run build -w server
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
