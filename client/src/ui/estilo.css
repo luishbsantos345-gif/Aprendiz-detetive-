@@ -1,0 +1,161 @@
+:root {
+  --fundo: #14181f;
+  --painel: rgba(22, 27, 36, 0.86);
+  --borda: rgba(255, 255, 255, 0.12);
+  --texto: #eef1f5;
+  --texto-suave: #a3adbb;
+  --destaque: #f2a93b; /* âmbar do almoxarifado */
+  --ok: #5fd08a;
+  --erro: #ff7a70;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#cena {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  gap: 12px 24px;
+  padding: max(16px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(12px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  overflow-y: auto;
+}
+
+header { align-self: center; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
+.sobretitulo {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--destaque);
+}
+h1 { margin: 0; font-size: clamp(1.8rem, 5vw, 3.4rem); line-height: 1.05; }
+
+.painel {
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  backdrop-filter: blur(8px);
+}
+.painel[hidden] { display: none; }
+
+label, .rotulo { margin: 0; font-size: 0.78rem; color: var(--texto-suave); }
+
+input, button {
+  font: inherit;
+  min-height: 44px; /* alvo de toque */
+  border-radius: 10px;
+  border: 1px solid var(--borda);
+  padding: 0 12px;
+}
+input { background: rgba(0, 0, 0, 0.35); color: var(--texto); width: 100%; min-width: 0; }
+input:focus-visible, button:focus-visible { outline: 2px solid var(--destaque); outline-offset: 2px; }
+#campo-codigo { text-transform: uppercase; letter-spacing: 0.3em; font-weight: 700; }
+
+button { background: rgba(255, 255, 255, 0.1); color: var(--texto); cursor: pointer; font-weight: 600; }
+button.primario { background: var(--destaque); color: #1b1305; border-color: transparent; }
+button:disabled { opacity: 0.5; cursor: progress; }
+
+.linha { display: flex; gap: 8px; }
+.linha button { flex: none; }
+
+.separador { display: flex; align-items: center; gap: 10px; color: var(--texto-suave); font-size: 0.75rem; }
+.separador::before, .separador::after { content: ""; flex: 1; height: 1px; background: var(--borda); }
+
+#mensagem { margin: 0; min-height: 1.2em; font-size: 0.82rem; color: var(--erro); }
+
+.codigo { margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: 0.3em; color: var(--destaque); }
+.estado { margin: 0; font-size: 0.85rem; font-weight: 600; }
+.estado::before { content: "● "; }
+.estado[data-estado="conectado"] { color: var(--ok); }
+.estado[data-estado="conectando"] { color: var(--texto-suave); }
+.estado[data-estado="desconectado"] { color: var(--erro); }
+
+#lista-jogadores {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 96px;
+  overflow-y: auto;
+}
+#lista-jogadores li {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+#lista-jogadores li[data-eu="true"] { outline: 1px solid var(--destaque); }
+
+#rodape { grid-column: 1 / -1; font-size: 0.7rem; color: var(--texto-suave); text-align: right; }
+
+#aviso-paisagem {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: var(--fundo);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+.icone-girar {
+  width: 48px;
+  height: 80px;
+  border: 3px solid var(--destaque);
+  border-radius: 10px;
+  animation: girar 1.8s ease-in-out infinite;
+}
+@keyframes girar { 0%, 20% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+
+/* Só bloqueia em aparelhos de toque: janela estreita no desktop continua usável. */
+@media (pointer: coarse) and (orientation: portrait) {
+  #aviso-paisagem { display: flex; }
+}
+
+/* Celular em paisagem: pouca altura, tudo mais compacto. */
+@media (max-height: 430px) {
+  #app { gap: 6px 16px; padding-top: max(8px, env(safe-area-inset-top)); }
+  .painel { padding: 10px 12px; gap: 5px; }
+  input, button { min-height: 40px; }
+  h1 { font-size: clamp(1.4rem, 4.5vw, 2.2rem); }
+  .separador { display: none; }
+  .codigo { font-size: 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icone-girar { animation: none; }
+}

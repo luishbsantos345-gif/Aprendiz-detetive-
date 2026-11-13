@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#14181f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Aprendiz Detetive</title>
+    <link rel="stylesheet" href="./src/ui/estilo.css" />
+  </head>
+  <body>
+    <canvas id="cena" aria-hidden="true"></canvas>
+
+    <main id="app">
+      <header>
+        <p class="sobretitulo">Grupo Meridiano Distribuidora</p>
+        <h1>Aprendiz Detetive</h1>
+      </header>
+
+      <section id="tela-entrada" class="painel">
+        <label for="campo-nome">Seu nome</label>
+        <input id="campo-nome" type="text" maxlength="16" autocomplete="off" placeholder="Aprendiz" />
+
+        <button id="botao-criar" class="primario" type="button">Criar sala</button>
+
+        <div class="separador"><span>ou</span></div>
+
+        <label for="campo-codigo">Código da sala</label>
+        <div class="linha">
+          <input id="campo-codigo" type="text" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCDE" />
+          <button id="botao-entrar" type="button">Entrar</button>
+        </div>
+
+        <p id="mensagem" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="tela-sala" class="painel" hidden>
+        <p class="rotulo">Código da sala</p>
+        <p id="codigo-sala" class="codigo">-----</p>
+        <p id="estado-conexao" class="estado" data-estado="conectando">Conectando</p>
+        <p class="rotulo">Jogadores <span id="contagem"></span></p>
+        <ul id="lista-jogadores"></ul>
+        <button id="botao-sair" type="button">Sair da sala</button>
+      </section>
+
+      <footer id="rodape"></footer>
+    </main>
+
+    <div id="aviso-paisagem" role="alert">
+      <div class="icone-girar" aria-hidden="true"></div>
+      <p>Gire o celular para jogar na horizontal.</p>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
